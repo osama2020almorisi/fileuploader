@@ -1,8 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-<title>File Uploader</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع الملفات إلى GitHub</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>🚀 رفع الملفات إلى مستودع GitHub</h1>
+            <p class="subtitle">اختر مجلداً موجوداً أو أنشئ مجلداً جديداً</p>
+        </header>
+
+        <div class="folder-controls">
+            <input type="text" id="folderPath" placeholder="مثال: uploads/منتجات" value="uploads">
+            <button id="createFolder" class="btn-secondary">+ إنشاء مجلد</button>
+        </div>
+
+        <div id="existingFolders" class="folders-list">
+            <h3><img src="https://cdn-icons-png.flaticon.com/512/2965/2965300.png" width="20"> المجلدات المتاحة:</h3>
+            <div class="loader">جاري تحميل المجلدات...</div>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <img src="https://cdn-icons-png.flaticon.com/512/726/726265.png" width="80">
+            <p class="drag-text">اسحب وأسقط الملفات هنا</p>
+            <p class="or-text">أو</p>
+            <input type="file" id="fileInput" multiple>
+            <label for="fileInput" class="btn-primary">اختر ملفات</label>
+        </div>
+
+        <div id="fileList" class="file-list">
+            <h3><img src="https://cdn-icons-png.flaticon.com/512/2965/2965278.png" width="20"> الملفات المحددة:</h3>
+            <div class="empty-state">لا توجد ملفات مختارة</div>
+        </div>
+
+        <button id="uploadBtn" class="btn-upload" disabled>
+            <img src="https://cdn-icons-png.flaticon.com/512/4902/4902397.png" width="20">
+            رفع الملفات
+        </button>
+
+        <div id="statusMessage" class="status-message"></div>
+    </div>
+
+    <script src="assets/js/upload.js"></script>
 </body>
 </html>
