@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style>
-        /* الأساسيات والخطوط */
         :root {
             --primary-color: #2c3e50;
             --primary-light: #3d566e;
@@ -33,6 +32,7 @@
             --info-text: #0c5460;
             --warning-bg: #fff3cd;
             --warning-text: #856404;
+            --folder-color: #ffc107;
         }
 
         * {
@@ -96,6 +96,7 @@
         .nav-menu {
             display: flex;
             gap: 1rem;
+            align-items: center;
         }
 
         .nav-link {
@@ -381,6 +382,162 @@
             border-radius: 50%;
         }
 
+        /* متصفح المجلدات */
+        .folder-browser {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            background-color: #f8fafc;
+        }
+
+        .folder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .folder-path {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .folder-path span {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .folder-path a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .folder-path a:hover {
+            background-color: rgba(26, 188, 156, 0.1);
+        }
+
+        .folder-path a i {
+            margin-left: 0.3rem;
+        }
+
+        .folder-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .folder-btn {
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .folder-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--dark-color);
+        }
+
+        .folder-btn i {
+            font-size: 0.9rem;
+        }
+
+        .folder-contents {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .folder-item {
+            padding: 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            position: relative;
+        }
+
+        .folder-item:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .folder-item.active {
+            background-color: rgba(26, 188, 156, 0.1);
+            border: 1px solid var(--secondary-color);
+        }
+
+        .folder-item-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--folder-color);
+        }
+
+        .folder-item-name {
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-item-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-color);
+        }
+
+        .folder-item-actions {
+            position: absolute;
+            top: 0.3rem;
+            left: 0.3rem;
+            display: none;
+            gap: 0.3rem;
+        }
+
+        .folder-item:hover .folder-item-actions {
+            display: flex;
+        }
+
+        .folder-item-action {
+            width: 22px;
+            height: 22px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--dark-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .folder-item-action:hover {
+            transform: scale(1.1);
+        }
+
+        .folder-item-action.edit {
+            color: var(--info-color);
+        }
+
+        .folder-item-action.delete {
+            color: var(--danger-color);
+        }
+
         /* قائمة الملفات */
         .file-list-container {
             margin: 2rem 0;
@@ -450,6 +607,14 @@
             font-weight: 500;
         }
 
+        .file-name-input {
+            flex: 1;
+            padding: 0.3rem 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
         .file-size {
             color: var(--gray-color);
             font-size: 0.85rem;
@@ -457,8 +622,13 @@
             flex-shrink: 0;
         }
 
-        .file-remove {
-            color: var(--danger-color);
+        .file-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .file-action {
+            color: var(--gray-color);
             cursor: pointer;
             transition: all 0.2s;
             padding: 0.5rem;
@@ -470,9 +640,17 @@
             height: 30px;
         }
 
-        .file-remove:hover {
-            background-color: rgba(231, 76, 60, 0.1);
-            transform: rotate(90deg);
+        .file-action:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            transform: scale(1.1);
+        }
+
+        .file-edit {
+            color: var(--info-color);
+        }
+
+        .file-remove {
+            color: var(--danger-color);
         }
 
         /* أزرار التحكم */
@@ -847,6 +1025,29 @@
             gap: 1rem;
         }
 
+        /* نافذة تأكيد الحذف */
+        .confirm-modal .modal-content {
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .confirm-icon {
+            font-size: 3rem;
+            color: var(--danger-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .confirm-text {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
         /* التكيف مع الشاشات الصغيرة */
         @media (max-width: 768px) {
             .app-header {
@@ -874,6 +1075,10 @@
             
             .upload-options {
                 grid-template-columns: 1fr;
+            }
+            
+            .folder-contents {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
             
             .action-buttons {
@@ -962,6 +1167,23 @@
                     <i class="fas fa-folder-open"></i> اختر الملفات
                 </label>
                 <p class="file-types">يدعم: الصور (PNG, JPG, GIF)، المستندات (PDF, DOCX, XLSX)، الأرشيفات (ZIP, RAR)، وغيرها</p>
+            </div>
+            
+            <!-- متصفح المجلدات -->
+            <div class="folder-browser" id="folderBrowser">
+                <div class="folder-header">
+                    <div class="folder-path" id="folderPath">
+                        <span>المسار:</span>
+                        <a href="#" data-path=""><i class="fas fa-home"></i> الرئيسية</a>
+                    </div>
+                    <div class="folder-actions">
+                        <button class="folder-btn" id="newFolderBtn"><i class="fas fa-folder-plus"></i> مجلد جديد</button>
+                        <button class="folder-btn" id="refreshFoldersBtn"><i class="fas fa-sync-alt"></i> تحديث</button>
+                    </div>
+                </div>
+                <div class="folder-contents" id="folderContents">
+                    <!-- سيتم ملؤها ديناميكياً -->
+                </div>
             </div>
             
             <div class="upload-options">
@@ -1172,6 +1394,71 @@
         </div>
     </div>
 
+    <!-- نموذج إنشاء مجلد جديد -->
+    <div id="folderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-folder-plus"></i> إنشاء مجلد جديد</h2>
+            <form id="folderForm">
+                <div class="form-group">
+                    <label for="folderName"><i class="fas fa-folder"></i> اسم المجلد</label>
+                    <input type="text" id="folderName" placeholder="مثال: صور-المنتجات" required>
+                </div>
+                <div class="form-footer">
+                    <button type="button" class="btn-secondary" id="cancelFolder">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-check"></i> إنشاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نموذج تعديل اسم الملف -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-edit"></i> تعديل اسم الملف</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editFileName"><i class="fas fa-file"></i> الاسم الجديد</label>
+                    <input type="text" id="editFileName" required>
+                </div>
+                <input type="hidden" id="editFileIndex">
+                <div class="form-footer">
+                    <button type="button" class="btn-secondary" id="cancelEdit">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> حفظ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نموذج تأكيد الحذف -->
+    <div id="confirmModal" class="modal confirm-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="confirm-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2 class="modal-title">تأكيد الحذف</h2>
+            <p class="confirm-text" id="confirmText">هل أنت متأكد أنك تريد حذف هذا الملف؟ لا يمكن التراجع عن هذه العملية.</p>
+            <div class="confirm-buttons">
+                <button class="btn-secondary" id="cancelDelete">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+                <button class="btn-primary" id="confirmDelete">
+                    <i class="fas fa-trash-alt"></i> حذف
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1197,15 +1484,29 @@
             const statusMessage = document.getElementById('statusMessage');
             const loginModal = document.getElementById('loginModal');
             const repoModal = document.getElementById('repoModal');
+            const folderModal = document.getElementById('folderModal');
+            const editModal = document.getElementById('editModal');
+            const confirmModal = document.getElementById('confirmModal');
             const closeModals = document.querySelectorAll('.close-modal');
             const loginForm = document.getElementById('loginForm');
             const repoForm = document.getElementById('repoForm');
+            const folderForm = document.getElementById('folderForm');
+            const editForm = document.getElementById('editForm');
             const loginBtn = document.getElementById('loginBtn');
             const cancelLogin = document.getElementById('cancelLogin');
             const cancelRepo = document.getElementById('cancelRepo');
+            const cancelFolder = document.getElementById('cancelFolder');
+            const cancelEdit = document.getElementById('cancelEdit');
+            const cancelDelete = document.getElementById('cancelDelete');
+            const confirmDelete = document.getElementById('confirmDelete');
             const logoutBtn = document.getElementById('logoutBtn');
             const userProfile = document.getElementById('userProfile');
             const userAvatar = document.getElementById('userAvatar');
+            const folderBrowser = document.getElementById('folderBrowser');
+            const folderPath = document.getElementById('folderPath');
+            const folderContents = document.getElementById('folderContents');
+            const newFolderBtn = document.getElementById('newFolderBtn');
+            const refreshFoldersBtn = document.getElementById('refreshFoldersBtn');
 
             // متغيرات التطبيق
             let filesToUpload = [];
@@ -1215,11 +1516,19 @@
             let speedHistory = [];
             let githubToken = localStorage.getItem('githubToken') || '';
             let username = localStorage.getItem('githubUsername') || '';
+            let currentFolderPath = '';
+            let fileToDeleteIndex = null;
 
             // تهيئة الواجهة
             function initUI() {
                 updateFileList();
                 checkAuthStatus();
+                renderFolderBrowser();
+                
+                // إخفاء متصفح المجلدات إذا لم يكن المستخدم مسجلاً
+                if (!githubToken) {
+                    folderBrowser.style.display = 'none';
+                }
             }
 
             // التحقق من حالة المصادقة
@@ -1230,6 +1539,9 @@
                     userProfile.style.display = 'flex';
                     userAvatar.textContent = username.charAt(0).toUpperCase();
                     
+                    // إظهار متصفح المجلدات
+                    folderBrowser.style.display = 'block';
+                    
                     // إخفاء النافذة المنبثقة إذا كانت ظاهرة
                     loginModal.classList.remove('active');
                     
@@ -1239,6 +1551,9 @@
                     // إخفاء معلومات المستخدم وإظهار زر تسجيل الدخول
                     loginBtn.style.display = 'flex';
                     userProfile.style.display = 'none';
+                    
+                    // إخفاء متصفح المجلدات
+                    folderBrowser.style.display = 'none';
                 }
                 
                 updateUploadButton();
@@ -1325,6 +1640,7 @@
                 filesToUpload.forEach((file, index) => {
                     const fileItem = document.createElement('div');
                     fileItem.className = 'file-item';
+                    fileItem.dataset.index = index;
                     
                     const fileTypeIcon = getFileIcon(file);
                     
@@ -1334,18 +1650,42 @@
                             <span class="file-name" title="${file.name}">${file.name}</span>
                             <span class="file-size">${formatFileSize(file.size)}</span>
                         </div>
-                        <i class="fas fa-times file-remove" data-index="${index}"></i>
+                        <div class="file-actions">
+                            <i class="fas fa-edit file-action file-edit" data-index="${index}" data-action="edit"></i>
+                            <i class="fas fa-times file-action file-remove" data-index="${index}" data-action="delete"></i>
+                        </div>
                     `;
                     fileList.appendChild(fileItem);
                 });
 
-                // إضافة أحداث لإزالة الملفات
-                document.querySelectorAll('.file-remove').forEach(btn => {
+                // إضافة أحداث لأزرار التعديل والحذف
+                document.querySelectorAll('.file-action').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const index = e.currentTarget.getAttribute('data-index');
-                        removeFile(index);
+                        const action = e.currentTarget.getAttribute('data-action');
+                        
+                        if (action === 'edit') {
+                            showEditModal(index);
+                        } else if (action === 'delete') {
+                            showDeleteConfirm(index);
+                        }
                     });
                 });
+            }
+
+            // عرض نافذة تعديل اسم الملف
+            function showEditModal(index) {
+                document.getElementById('editFileName').value = filesToUpload[index].name;
+                document.getElementById('editFileIndex').value = index;
+                editModal.classList.add('active');
+            }
+
+            // عرض نافذة تأكيد الحذف
+            function showDeleteConfirm(index) {
+                fileToDeleteIndex = index;
+                const fileName = filesToUpload[index].name;
+                document.getElementById('confirmText').textContent = `هل أنت متأكد أنك تريد حذف الملف "${fileName}"؟ لا يمكن التراجع عن هذه العملية.`;
+                confirmModal.classList.add('active');
             }
 
             // الحصول على أيقونة الملف حسب نوعه
@@ -1741,6 +2081,9 @@
                 btn.addEventListener('click', () => {
                     loginModal.classList.remove('active');
                     repoModal.classList.remove('active');
+                    folderModal.classList.remove('active');
+                    editModal.classList.remove('active');
+                    confirmModal.classList.remove('active');
                 });
             });
 
@@ -1750,6 +2093,19 @@
 
             cancelRepo.addEventListener('click', () => {
                 repoModal.classList.remove('active');
+            });
+
+            cancelFolder.addEventListener('click', () => {
+                folderModal.classList.remove('active');
+            });
+
+            cancelEdit.addEventListener('click', () => {
+                editModal.classList.remove('active');
+            });
+
+            cancelDelete.addEventListener('click', () => {
+                confirmModal.classList.remove('active');
+                fileToDeleteIndex = null;
             });
 
             // تسجيل الدخول
@@ -1788,6 +2144,9 @@
                     checkAuthStatus();
                     updateUploadButton();
                     showToast(`مرحباً ${username}! تم تسجيل الدخول بنجاح`, 'success');
+                    
+                    // عرض متصفح المجلدات
+                    renderFolderBrowser();
                     
                 } catch (error) {
                     console.error('Login error:', error);
@@ -1846,6 +2205,9 @@
                 username = '';
                 checkAuthStatus();
                 showToast('تم تسجيل الخروج بنجاح', 'info');
+                
+                // إخفاء متصفح المجلدات
+                folderBrowser.style.display = 'none';
             });
 
             // إغلاق النوافذ بالضغط خارجها
@@ -1855,6 +2217,199 @@
                 }
                 if (e.target === repoModal) {
                     repoModal.classList.remove('active');
+                }
+                if (e.target === folderModal) {
+                    folderModal.classList.remove('active');
+                }
+                if (e.target === editModal) {
+                    editModal.classList.remove('active');
+                }
+                if (e.target === confirmModal) {
+                    confirmModal.classList.remove('active');
+                    fileToDeleteIndex = null;
+                }
+            });
+
+            // عرض نافذة إنشاء مجلد جديد
+            newFolderBtn.addEventListener('click', () => {
+                folderModal.classList.add('active');
+            });
+
+            // إنشاء مجلد جديد
+            folderForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const folderName = document.getElementById('folderName').value.trim();
+                
+                if (!folderName) {
+                    showToast('يرجى إدخال اسم المجلد', 'error');
+                    return;
+                }
+                
+                // إضافة المجلد الجديد إلى المسار الحالي
+                currentFolderPath = currentFolderPath ? `${currentFolderPath}/${folderName}` : folderName;
+                renderFolderBrowser();
+                
+                // تحديث حقل المجلد الهدف
+                targetFolder.value = currentFolderPath;
+                
+                folderModal.classList.remove('active');
+                document.getElementById('folderName').value = '';
+                
+                showToast(`تم إنشاء المجلد "${folderName}"`, 'success');
+            });
+
+            // تحديث متصفح المجلدات
+            refreshFoldersBtn.addEventListener('click', () => {
+                renderFolderBrowser();
+                showToast('تم تحديث محتويات المجلد', 'info');
+            });
+
+            // عرض محتويات المجلد الحالي
+            function renderFolderBrowser() {
+                // مسح المحتوى الحالي
+                folderContents.innerHTML = '';
+                
+                // تحديث شريط المسار
+                updateFolderPath();
+                
+                // إذا كان المسار الحالي فارغاً (المجلد الرئيسي)
+                if (!currentFolderPath) {
+                    // يمكنك هنا عرض أي مجلدات افتراضية إذا لزم الأمر
+                    return;
+                }
+                
+                // تقسيم المسار إلى أجزاء
+                const pathParts = currentFolderPath.split('/');
+                
+                // عرض المجلدات والملفات (هذا مثال بسيط، يمكنك توسيعه)
+                pathParts.forEach((part, index) => {
+                    const folderItem = document.createElement('div');
+                    folderItem.className = 'folder-item';
+                    
+                    folderItem.innerHTML = `
+                        <div class="folder-item-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="folder-item-name">${part}</div>
+                        <div class="folder-item-actions">
+                            <div class="folder-item-action edit" data-part="${part}" data-index="${index}">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="folder-item-action delete" data-part="${part}" data-index="${index}">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </div>
+                    `;
+                    
+                    folderContents.appendChild(folderItem);
+                });
+                
+                // إضافة أحداث للمجلدات
+                document.querySelectorAll('.folder-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        // منع تنفيذ الحدث إذا تم النقر على زر التعديل أو الحذف
+                        if (e.target.closest('.folder-item-action')) {
+                            return;
+                        }
+                        
+                        // تحديث المسار عند النقر على مجلد
+                        const part = e.currentTarget.querySelector('.folder-item-name').textContent;
+                        const currentIndex = pathParts.indexOf(part);
+                        
+                        if (currentIndex >= 0) {
+                            currentFolderPath = pathParts.slice(0, currentIndex + 1).join('/');
+                            renderFolderBrowser();
+                        }
+                    });
+                });
+                
+                // إضافة أحداث لأزرار التعديل والحذف
+                document.querySelectorAll('.folder-item-action').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const action = e.currentTarget.classList.contains('edit') ? 'edit' : 'delete';
+                        const part = e.currentTarget.getAttribute('data-part');
+                        const index = e.currentTarget.getAttribute('data-index');
+                        
+                        if (action === 'edit') {
+                            // يمكنك تنفيذ تعديل اسم المجلد هنا
+                            showToast(`تعديل اسم المجلد "${part}"`, 'info');
+                        } else if (action === 'delete') {
+                            // حذف المجلد من المسار
+                            pathParts.splice(index, 1);
+                            currentFolderPath = pathParts.join('/');
+                            renderFolderBrowser();
+                            targetFolder.value = currentFolderPath;
+                            showToast(`تم حذف المجلد "${part}"`, 'info');
+                        }
+                    });
+                });
+            }
+
+            // تحديث شريط المسار
+            function updateFolderPath() {
+                folderPath.innerHTML = '<span>المسار:</span>';
+                
+                if (!currentFolderPath) {
+                    folderPath.innerHTML += '<a href="#" data-path=""><i class="fas fa-home"></i> الرئيسية</a>';
+                } else {
+                    const pathParts = currentFolderPath.split('/');
+                    let currentPath = '';
+                    
+                    folderPath.innerHTML += '<a href="#" data-path=""><i class="fas fa-home"></i> الرئيسية</a>';
+                    
+                    pathParts.forEach((part, index) => {
+                        currentPath = currentPath ? `${currentPath}/${part}` : part;
+                        folderPath.innerHTML += `<span>/</span><a href="#" data-path="${currentPath}">${part}</a>`;
+                    });
+                }
+                
+                // إضافة أحداث لأجزاء المسار
+                folderPath.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const path = e.currentTarget.getAttribute('data-path');
+                        currentFolderPath = path;
+                        renderFolderBrowser();
+                        targetFolder.value = currentFolderPath;
+                    });
+                });
+            }
+
+            // تعديل اسم الملف
+            editForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newName = document.getElementById('editFileName').value.trim();
+                const index = document.getElementById('editFileIndex').value;
+                
+                if (!newName) {
+                    showToast('يرجى إدخال اسم جديد للملف', 'error');
+                    return;
+                }
+                
+                if (index >= 0 && index < filesToUpload.length) {
+                    // إنشاء ملف جديد بالاسم الجديد
+                    const oldFile = filesToUpload[index];
+                    const newFile = new File([oldFile], newName, {
+                        type: oldFile.type,
+                        lastModified: oldFile.lastModified
+                    });
+                    
+                    // استبدال الملف القديم بالجديد
+                    filesToUpload.splice(index, 1, newFile);
+                    updateFileList();
+                    
+                    editModal.classList.remove('active');
+                    showToast('تم تعديل اسم الملف بنجاح', 'success');
+                }
+            });
+
+            // تأكيد حذف الملف
+            confirmDelete.addEventListener('click', () => {
+                if (fileToDeleteIndex !== null) {
+                    removeFile(fileToDeleteIndex);
+                    confirmModal.classList.remove('active');
+                    fileToDeleteIndex = null;
                 }
             });
 
