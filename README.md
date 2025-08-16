@@ -1,6 +1,6 @@
 # 📁 GitHub Uploader Pro - منصة رفع الملفات المحترفة
 
-![GitHub Uploader Banner](https://osama2020almorisi.github.io/fileuploader/assets/banner.jpg)
+![GitHub Uploader Banner]([https://osama2020almorisi.github.io/fileuploader/assets/banner.jpg](https://github.com/account))
 
 **[👉 اضغط هنا لفتح المنصة مباشرة 👈](https://osama2020almorisi.github.io/fileuploader/)**
 
