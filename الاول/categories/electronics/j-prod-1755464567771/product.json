@@ -1,0 +1,13 @@
+{
+  "id": "prod-1755464567771",
+  "name": "j",
+  "price": 669,
+  "category": "electronics",
+  "description": "i",
+  "specs": {},
+  "created_at": "2025-08-17T21:03:07.639Z",
+  "updated_at": "2025-08-17T21:03:07.639Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
