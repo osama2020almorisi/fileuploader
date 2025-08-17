@@ -2,7 +2,7 @@
 
 ![GitHub Uploader Banner]([https://osama2020almorisi.github.io/fileuploader/assets/banner.jpg](https://github.com/account))
 
-**[👉 اضغط هنا لفتح المنصة مباشرة 👈]([](https://osama2020almorisi.github.io/fileuploader/about.html)**
+**[👉 اضغط هنا لفتح المنصة مباشرة 👈](https://osama2020almorisi.github.io/fileuploader/about.html)**
 
 **[👉 اضغط هنا لفتح المنصة مباشرة 👈](https://osama2020almorisi.github.io/fileuploader/)**
 
