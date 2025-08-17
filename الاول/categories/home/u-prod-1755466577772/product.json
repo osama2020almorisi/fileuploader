@@ -1,0 +1,13 @@
+{
+  "id": "prod-1755466577772",
+  "name": "u",
+  "price": 3,
+  "category": "home",
+  "description": "i",
+  "specs": {},
+  "created_at": "2025-08-17T21:36:57.113Z",
+  "updated_at": "2025-08-17T21:36:57.114Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
