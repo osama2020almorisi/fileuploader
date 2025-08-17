@@ -1,0 +1,13 @@
+{
+  "id": "prod-1755466393963",
+  "name": "h",
+  "price": 12,
+  "category": "clothing",
+  "description": "hj",
+  "specs": {},
+  "created_at": "2025-08-17T21:34:24.232Z",
+  "updated_at": "2025-08-17T21:34:24.232Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
