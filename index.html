@@ -11,7 +11,7 @@
     <meta property="og:image" content="https://via.placeholder.com/300x200?text=Store+Logo">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
-    <style>
+        <style>
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #1abc9c;
@@ -101,18 +101,26 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .cart-icon {
+        .header-icons {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .header-icon {
             position: relative;
             font-size: 1.5rem;
             cursor: pointer;
             transition: all var(--transition-speed) ease;
+            color: white;
         }
 
-        .cart-icon:hover {
+        .header-icon:hover {
             transform: scale(1.1);
+            color: var(--secondary-color);
         }
 
-        .cart-count {
+        .icon-badge {
             position: absolute;
             top: -10px;
             left: -10px;
@@ -329,6 +337,30 @@
             font-weight: 700;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             z-index: 2;
+        }
+
+        .favorite-icon {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: white;
+            background: rgba(0,0,0,0.4);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            z-index: 2;
+        }
+
+        .favorite-icon:hover, .favorite-icon.active {
+            background: var(--danger-color);
+            color: white;
+            transform: scale(1.1);
         }
 
         .product-title-horizontal {
@@ -716,6 +748,26 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
+        .btn-favorite {
+            background-color: white;
+            color: var(--dark-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .btn-favorite.active {
+            background-color: var(--danger-color);
+            color: white;
+            border-color: var(--danger-color);
+        }
+
+        .btn-favorite:hover {
+            background-color: var(--danger-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
         .btn-share {
             background-color: var(--info-color);
             color: white;
@@ -897,6 +949,10 @@
             background-color: var(--danger-color);
         }
 
+        .notification.info {
+            background-color: var(--info-color);
+        }
+
         /* تأثيرات التمرير */
         .scroll-indicator {
             position: fixed;
@@ -998,6 +1054,58 @@
             border-right: 4px solid #17a2b8;
         }
 
+        /* صفحة المفضلة */
+        .favorites-page {
+            display: none;
+            padding: 2rem;
+        }
+
+        .favorites-page.active {
+            display: block;
+        }
+
+        .favorites-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-to-products {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .back-to-products:hover {
+            background-color: #16a085;
+            transform: translateY(-3px);
+        }
+
+        /* صفحة السلة */
+        .cart-page {
+            display: none;
+            padding: 2rem;
+        }
+
+        .cart-page.active {
+            display: block;
+        }
+
+        .cart-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
         /* التكيف مع الشاشات الصغيرة */
         @media (max-width: 992px) {
             .product-details {
@@ -1021,6 +1129,10 @@
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .header-icons {
                 gap: 1rem;
             }
             
@@ -1075,6 +1187,18 @@
             
             .logo h1 {
                 font-size: 1.3rem;
+            }
+            
+            .header-icon {
+                font-size: 1.3rem;
+            }
+            
+            .icon-badge {
+                width: 18px;
+                height: 18px;
+                font-size: 0.7rem;
+                top: -8px;
+                left: -8px;
             }
             
             .product-card-horizontal {
@@ -1142,6 +1266,29 @@
             }
         }
     </style>
+    <style>
+        /* جميع أنماط CSS السابقة تبقى كما هي */
+        /* ... */
+        
+        /* صفحة السلة */
+        .cart-page {
+            display: none;
+            padding: 2rem;
+        }
+
+        .cart-page.active {
+            display: block;
+        }
+
+        .cart-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* ... باقي الأنماط ... */
+    </style>
 </head>
 <body>
     <header id="mainHeader">
@@ -1150,14 +1297,20 @@
                 <i class="fas fa-store"></i>
                 <h1>متجر إلكتروني</h1>
             </div>
-            <div class="cart-icon">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">0</span>
+            <div class="header-icons">
+                <div class="header-icon favorite-icon-header" id="favoriteIconHeader">
+                    <i class="fas fa-heart"></i>
+                    <span class="icon-badge favorite-count">0</span>
+                </div>
+                <div class="header-icon cart-icon" id="cartIconHeader">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="icon-badge cart-count">0</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <main>
+    <main id="mainContent">
         <h1 class="page-title">منتجاتنا</h1>
         
         <!-- عرض المنتجات حسب الفئات -->
@@ -1168,6 +1321,25 @@
         <div class="loading" id="loading">
             <i class="fas fa-spinner"></i>
             <span>جاري تحميل المنتجات...</span>
+        </div>
+    </main>
+
+    <!-- صفحة المفضلة -->
+    <main class="favorites-page" id="favoritesPage">
+        <div class="favorites-header">
+            <button class="back-to-products" id="backToProductsFromFavorites">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <h1 class="page-title">منتجاتك المفضلة</h1>
+        </div>
+        
+        <div class="categories-container" id="favoritesContainer">
+            <!-- سيتم ملؤها ديناميكياً -->
+        </div>
+        
+        <div class="status-message info" id="emptyFavoritesMessage" style="display: none;">
+            <i class="fas fa-info-circle"></i>
+            <span>لا توجد منتجات في المفضلة حالياً</span>
         </div>
     </main>
 
@@ -1212,7 +1384,7 @@
                     </div>
                     
                     <div class="product-actions">
-                        <button class="btn btn-secondary">
+                        <button class="btn btn-favorite" id="toggleFavoriteDetail">
                             <i class="fas fa-heart"></i> المفضلة
                         </button>
                         <button class="btn btn-share" id="shareProduct">
@@ -1230,7 +1402,7 @@
     <!-- شريط المشاركة -->
     <div class="share-bar" id="shareBar">
         <i class="fas fa-times close-share" id="closeShare"></i>
-      
+        
         <div class="share-icons">
             <div class="share-icon facebook" data-platform="facebook">
                 <i class="fab fa-facebook-f"></i>
@@ -1269,10 +1441,14 @@
             // عناصر DOM
             const loading = document.getElementById('loading');
             const cartCount = document.querySelector('.cart-count');
+            const favoriteCount = document.querySelector('.favorite-count');
             const categoriesContainer = document.getElementById('categoriesContainer');
+            const favoritesContainer = document.getElementById('favoritesContainer');
+            const emptyFavoritesMessage = document.getElementById('emptyFavoritesMessage');
             const productModal = document.getElementById('productModal');
             const modalClose = document.getElementById('modalClose');
             const addToCartDetail = document.getElementById('addToCartDetail');
+            const toggleFavoriteDetail = document.getElementById('toggleFavoriteDetail');
             const shareProduct = document.getElementById('shareProduct');
             const shareBar = document.getElementById('shareBar');
             const closeShare = document.getElementById('closeShare');
@@ -1281,10 +1457,16 @@
             const scrollIndicator = document.getElementById('scrollIndicator');
             const backToTop = document.getElementById('backToTop');
             const mainHeader = document.getElementById('mainHeader');
+            const mainContent = document.getElementById('mainContent');
+            const favoritesPage = document.getElementById('favoritesPage');
+            const favoriteIconHeader = document.getElementById('favoriteIconHeader');
+            const cartIconHeader = document.getElementById('cartIconHeader');
+            const backToProductsFromFavorites = document.getElementById('backToProductsFromFavorites');
             
             // متغيرات التطبيق
             let allProducts = [];
             let cart = [];
+            let favorites = [];
             let currentProduct = null;
             const repoName = 'fileuploader';
             const username = 'osama2020almorisi';
@@ -1300,8 +1482,18 @@
                     updateCartCount();
                 }
                 
+                // تحميل المفضلة من localStorage
+                const savedFavorites = localStorage.getItem('favorites');
+                if (savedFavorites) {
+                    favorites = JSON.parse(savedFavorites);
+                    updateFavoriteCount();
+                }
+                
                 // إعداد أحداث التمرير
                 setupScrollEvents();
+                
+                // إعداد أحداث التنقل بين الصفحات
+                setupNavigationEvents();
             }
             
             // جلب المنتجات من GitHub
@@ -1564,11 +1756,13 @@
                     overlay.className = 'product-card-overlay';
                     
                     overlay.innerHTML = `
+                        <div class="favorite-icon ${isProductInFavorites(product.id) ? 'active' : ''}" data-id="${product.id}">
+                            <i class="fas fa-heart"></i>
+                        </div>
                         <h3 class="product-title-horizontal">${product.name}</h3>
                         <div class="product-price-horizontal">${product.price} ر.ي</div>
                         <button class="order-now-btn" data-id="${product.id}">
-                            <span>
-                    </span> <i class="fas fa-shopping-basket"></i>
+                            <i class="fas fa-shopping-basket"></i> أضف للسلة
                         </button>
                     `;
                     
@@ -1576,8 +1770,8 @@
                     
                     // حدث النقر على بطاقة المنتج
                     productCard.addEventListener('click', (e) => {
-                        // منع فتح التفاصيل إذا تم النقر على زر الطلب
-                        if (!e.target.closest('.order-now-btn')) {
+                        // منع فتح التفاصيل إذا تم النقر على زر الطلب أو المفضلة
+                        if (!e.target.closest('.order-now-btn') && !e.target.closest('.favorite-icon')) {
                             showProductDetails(product);
                         }
                     });
@@ -1587,6 +1781,13 @@
                     orderBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         addToCart(product, orderBtn);
+                    });
+                    
+                    // حدث النقر على أيقونة المفضلة
+                    const favoriteIcon = productCard.querySelector('.favorite-icon');
+                    favoriteIcon.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(product, favoriteIcon);
                     });
                     
                     container.appendChild(productCard);
@@ -1605,6 +1806,14 @@
                 document.getElementById('detailCode').textContent = product.id;
                 document.getElementById('detailDate').textContent = new Date(product.created_at).toLocaleDateString('ar-SA');
                 document.getElementById('detailStock').textContent = 'متوفر';
+                
+                // تحديث حالة زر المفضلة
+                const isFavorite = isProductInFavorites(product.id);
+                const favoriteBtn = document.getElementById('toggleFavoriteDetail');
+                favoriteBtn.classList.toggle('active', isFavorite);
+                favoriteBtn.innerHTML = isFavorite ? 
+                    '<i class="fas fa-heart"></i> من المفضلة' : 
+                    '<i class="fas fa-heart"></i> المفضلة';
                 
                 // تحديث بيانات Open Graph للمشاركة
                 updateOpenGraphMeta(product);
@@ -1722,10 +1931,56 @@
                     button.style.backgroundColor = 'var(--success-color)';
                     
                     setTimeout(() => {
-                        button.innerHTML = '<span></span> <i class="fas fa-shopping-basket"></i>';
+                        button.innerHTML = '<i class="fas fa-shopping-basket"></i> أضف للسلة';
                         button.style.backgroundColor = '';
                     }, 2000);
                 }
+            }
+
+            // إضافة/إزالة منتج من المفضلة
+            function toggleFavorite(product, element = null) {
+                const index = favorites.findIndex(item => item.id === product.id);
+                
+                if (index === -1) {
+                    // إضافة إلى المفضلة
+                    favorites.push(product);
+                    if (element) element.classList.add('active');
+                    showNotification('تمت إضافة المنتج إلى المفضلة', 'success');
+                } else {
+                    // إزالة من المفضلة
+                    favorites.splice(index, 1);
+                    if (element) element.classList.remove('active');
+                    showNotification('تمت إزالة المنتج من المفضلة', 'info');
+                }
+                
+                updateFavoriteCount();
+                saveFavoritesToLocalStorage();
+                
+                // تحديث زر المفضلة في نافذة التفاصيل إذا كان هو المنتج الحالي
+                if (currentProduct && currentProduct.id === product.id) {
+                    const favoriteBtn = document.getElementById('toggleFavoriteDetail');
+                    const isFavorite = isProductInFavorites(product.id);
+                    favoriteBtn.classList.toggle('active', isFavorite);
+                    favoriteBtn.innerHTML = isFavorite ? 
+                        '<i class="fas fa-heart"></i> من المفضلة' : 
+                        '<i class="fas fa-heart"></i> المفضلة';
+                }
+            }
+
+            // التحقق إذا كان المنتج في المفضلة
+            function isProductInFavorites(productId) {
+                return favorites.some(item => item.id === productId);
+            }
+
+            // تحديث عداد المفضلة
+            function updateFavoriteCount() {
+                favoriteCount.textContent = favorites.length;
+                
+                // تأثير النبض عند التحديث
+                favoriteCount.style.animation = 'none';
+                setTimeout(() => {
+                    favoriteCount.style.animation = 'pulse 0.5s ease';
+                }, 10);
             }
 
             // تحديث عداد السلة
@@ -1745,6 +2000,11 @@
                 localStorage.setItem('cart', JSON.stringify(cart));
             }
 
+            // حفظ المفضلة في localStorage
+            function saveFavoritesToLocalStorage() {
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+            }
+
             // عرض إشعار
             function showNotification(message, type = 'success') {
                 notification.className = `notification ${type}`;
@@ -1752,8 +2012,10 @@
                 
                 if (type === 'success') {
                     notification.querySelector('i').className = 'fas fa-check-circle';
-                } else {
+                } else if (type === 'error') {
                     notification.querySelector('i').className = 'fas fa-exclamation-circle';
+                } else {
+                    notification.querySelector('i').className = 'fas fa-info-circle';
                 }
                 
                 notification.classList.add('show');
@@ -1843,6 +2105,99 @@
                 });
             }
 
+            // إعداد أحداث التنقل بين الصفحات
+            function setupNavigationEvents() {
+                // الانتقال إلى صفحة المفضلة
+                favoriteIconHeader.addEventListener('click', showFavoritesPage);
+                
+                // الانتقال إلى صفحة السلة - التغيير هنا
+                cartIconHeader.addEventListener('click', goToCartPage);
+                
+                // العودة من صفحة المفضلة
+                backToProductsFromFavorites.addEventListener('click', showMainPage);
+            }
+
+            // الانتقال إلى صفحة السلة - الوظيفة الجديدة
+            function goToCartPage() {
+                // حفظ السلة الحالية قبل الانتقال
+                saveCartToLocalStorage();
+                
+                // الانتقال إلى صفحة السلة
+                window.location.href = 'cart.html';
+            }
+
+            // عرض صفحة المفضلة
+            function showFavoritesPage() {
+                mainContent.style.display = 'none';
+                favoritesPage.style.display = 'block';
+                favoritesPage.classList.add('active');
+                
+                renderFavoritesProducts();
+                
+                // التمرير إلى الأعلى
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+
+            // عرض الصفحة الرئيسية
+            function showMainPage() {
+                favoritesPage.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // التمرير إلى الأعلى
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+
+            // عرض المنتجات المفضلة
+            function renderFavoritesProducts() {
+                favoritesContainer.innerHTML = '';
+                
+                if (favorites.length === 0) {
+                    emptyFavoritesMessage.style.display = 'flex';
+                    return;
+                }
+                
+                emptyFavoritesMessage.style.display = 'none';
+                
+                // تجميع المنتجات حسب الفئة
+                const productsByCategory = {};
+                favorites.forEach(product => {
+                    if (!productsByCategory[product.category]) {
+                        productsByCategory[product.category] = [];
+                    }
+                    productsByCategory[product.category].push(product);
+                });
+                
+                // عرض المنتجات حسب الفئات
+                Object.keys(productsByCategory).forEach(category => {
+                    const categorySection = document.createElement('div');
+                    categorySection.className = 'category-section';
+                    
+                    categorySection.innerHTML = `
+                        <div class="category-header">
+                            <h2 class="category-title">
+                                <i class="fas fa-folder"></i> ${category}
+                            </h2>
+                            <span class="products-count">${productsByCategory[category].length} منتج</span>
+                        </div>
+                        <div class="products-scroll" id="favorites-${category}">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </div>
+                    `;
+                    
+                    favoritesContainer.appendChild(categorySection);
+                    
+                    // عرض منتجات هذه الفئة
+                    const productsScroll = document.getElementById(`favorites-${category}`);
+                    renderCategoryProducts(productsByCategory[category], productsScroll);
+                });
+            }
+
             // تحميل منتج معين من الرابط
             function loadProductFromURL() {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -1880,6 +2235,13 @@
                         addToCartDetail.innerHTML = '<i class="fas fa-cart-plus"></i> أضف للسلة';
                         addToCartDetail.style.backgroundColor = '';
                     }, 2000);
+                }
+            });
+            
+            // إضافة/إزالة من المفضلة من نافذة التفاصيل
+            toggleFavoriteDetail.addEventListener('click', () => {
+                if (currentProduct) {
+                    toggleFavorite(currentProduct);
                 }
             });
             
