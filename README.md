@@ -30,19 +30,19 @@
   <div class="page-card">
     <h3>🏠 الصفحة الرئيسية</h3>
     <p>عرض المنتجات حسب الفئات والتصنيفات</p>
-    <a href="../index.html" class="page-btn" target="_blank">فتح الصفحة</a>
+    <a href="index.html" class="page-btn" target="_target">فتح الصفحة</a>
   </div>
   
   <div class="page-card">
     <h3>🛒 سلة التسوق</h3>
     <p>إدارة مشتريات المستخدم وتتبع الطلبات</p>
-    <a href="../cart.html" class="page-btn" target="_blank">فتح الصفحة</a>
+    <a href="cartt.html" class="page-btn" target="_blank">فتح الصفحة</a>
   </div>
   
   <div class="page-card">
     <h3>⚙️ لوحة الإدارة</h3>
     <p>إضافة وتعديل المنتجات وإدارة المتجر</p>
-    <a href="../admin.html" class="page-btn" target="_blank">فتح الصفحة</a>
+    <a href="adminn.html" class="page-btn" target="_blank">فتح الصفحة</a>
   </div>
 </div>
 
