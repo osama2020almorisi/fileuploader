@@ -1567,7 +1567,8 @@
                         <h3 class="product-title-horizontal">${product.name}</h3>
                         <div class="product-price-horizontal">${product.price} ر.ي</div>
                         <button class="order-now-btn" data-id="${product.id}">
-                            <span>اطلب الآن</span> <i class="fas fa-shopping-basket"></i>
+                            <span>
+                    </span> <i class="fas fa-shopping-basket"></i>
                         </button>
                     `;
                     
@@ -1721,7 +1722,7 @@
                     button.style.backgroundColor = 'var(--success-color)';
                     
                     setTimeout(() => {
-                        button.innerHTML = '<span>اطلب الآن</span> <i class="fas fa-shopping-basket"></i>';
+                        button.innerHTML = '<span></span> <i class="fas fa-shopping-basket"></i>';
                         button.style.backgroundColor = '';
                     }, 2000);
                 }
