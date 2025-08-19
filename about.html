@@ -973,6 +973,31 @@
             box-shadow: 0 8px 25px rgba(26, 188, 156, 0.6);
         }
 
+        /* رسائل الحالة */
+        .status-message {
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .status-message.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-right: 4px solid #ffc107;
+        }
+
+        .status-message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-right: 4px solid #17a2b8;
+        }
+
         /* التكيف مع الشاشات الصغيرة */
         @media (max-width: 992px) {
             .product-details {
@@ -1283,32 +1308,46 @@
             async function fetchProducts() {
                 try {
                     loading.style.display = 'flex';
+                    loading.innerHTML = '<i class="fas fa-spinner"></i> <span>جاري تحميل المنتجات...</span>';
                     
-                    // جلب هيكل المجلدات (الفئات)
+                    // جلب الفئات أولاً
                     const categories = await fetchCategories();
+                    
+                    if (categories.length === 0) {
+                        showNotification('لا توجد فئات متاحة حالياً', 'warning');
+                        loading.style.display = 'none';
+                        return;
+                    }
                     
                     // جلب المنتجات من كل فئة
                     allProducts = [];
-                    for (const category of categories) {
-                        const products = await fetchCategoryProducts(category);
-                        allProducts = [...allProducts, ...products];
+                    const productsPromises = categories.map(category => 
+                        fetchCategoryProducts(category)
+                    );
+                    
+                    const productsByCategory = await Promise.all(productsPromises);
+                    allProducts = productsByCategory.flat();
+                    
+                    if (allProducts.length === 0) {
+                        showNotification('لا توجد منتجات متاحة حالياً', 'warning');
+                        loading.style.display = 'none';
+                        return;
                     }
                     
                     // عرض المنتجات حسب الفئات
                     renderProductsByCategory(allProducts, categories);
                     
-                    loading.style.display = 'none';
-                    
                     // تحميل منتج معين من الرابط إذا كان موجوداً
                     loadProductFromURL();
                 } catch (error) {
                     console.error('حدث خطأ أثناء جلب المنتجات:', error);
-                    loading.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <span>حدث خطأ: ${error.message}</span>`;
-                    showNotification('حدث خطأ أثناء تحميل المنتجات', 'error');
+                    showNotification(`حدث خطأ: ${error.message}`, 'error');
+                } finally {
+                    loading.style.display = 'none';
                 }
             }
             
-            // جلب الفئات المتاحة
+            // جلب الفئات المتاحة - النسخة المحسنة
             async function fetchCategories() {
                 try {
                     const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/contents/products/categories`);
@@ -1322,11 +1361,11 @@
                 } catch (error) {
                     console.error('Error fetching categories:', error);
                     showNotification('حدث خطأ أثناء جلب الفئات', 'error');
-                    return [];
+                    return ['إلكترونيات', 'ملابس', 'منزلية']; // فئات افتراضية في حالة الخطأ
                 }
             }
-            
-            // جلب المنتجات في فئة معينة
+
+            // جلب المنتجات في فئة معينة - النسخة المحسنة
             async function fetchCategoryProducts(category) {
                 try {
                     const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/contents/products/categories/${category}`);
@@ -1337,24 +1376,26 @@
                     
                     const data = await response.json();
                     const productFolders = data.filter(item => item.type === 'dir');
-                    const products = [];
                     
-                    // جلب بيانات كل منتج
-                    for (const folder of productFolders) {
-                        const product = await fetchProductData(category, folder.name);
-                        if (product) {
-                            products.push(product);
-                        }
+                    if (productFolders.length === 0) {
+                        console.log(`لا توجد منتجات في فئة ${category}`);
+                        return [];
                     }
                     
-                    return products;
+                    // جلب بيانات المنتجات بشكل متوازي لتحسين الأداء
+                    const productsPromises = productFolders.map(folder => 
+                        fetchProductData(category, folder.name)
+                    );
+                    
+                    const products = await Promise.all(productsPromises);
+                    return products.filter(product => product !== null);
                 } catch (error) {
                     console.error(`Error fetching products for category ${category}:`, error);
                     showNotification(`حدث خطأ أثناء جلب منتجات فئة ${category}`, 'error');
                     return [];
                 }
             }
-            
+
             // جلب بيانات منتج معين
             async function fetchProductData(category, folderName) {
                 try {
@@ -1385,10 +1426,30 @@
                     return null;
                 }
             }
-            
+
             // عرض المنتجات حسب الفئات - النسخة المحسنة
             function renderProductsByCategory(products, categories) {
                 categoriesContainer.innerHTML = '';
+                
+                if (categories.length === 0) {
+                    categoriesContainer.innerHTML = `
+                        <div class="status-message warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            لا توجد فئات متاحة حالياً
+                        </div>
+                    `;
+                    return;
+                }
+                
+                if (products.length === 0) {
+                    categoriesContainer.innerHTML = `
+                        <div class="status-message info">
+                            <i class="fas fa-info-circle"></i>
+                            لا توجد منتجات متاحة حالياً
+                        </div>
+                    `;
+                    return;
+                }
                 
                 categories.forEach((category, index) => {
                     const categoryProducts = products.filter(p => p.category === category);
@@ -1403,7 +1464,7 @@
                             <h2 class="category-title">
                                 <i class="fas fa-folder"></i> ${category}
                             </h2>
-                            <a href="#" class="view-all" data-category="${category}">عرض الكل</a>
+                            <a href="#" class="view-all" data-category="${category}">عرض الكل (${categoryProducts.length})</a>
                         </div>
                         <div class="products-scroll" id="products-${category}">
                             <!-- سيتم ملؤها ديناميكياً -->
@@ -1415,9 +1476,70 @@
                     // عرض منتجات هذه الفئة
                     const productsScroll = document.getElementById(`products-${category}`);
                     renderCategoryProducts(categoryProducts, productsScroll);
+                    
+                    // حدث النقر على "عرض الكل"
+                    const viewAllLink = categorySection.querySelector('.view-all');
+                    viewAllLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        filterProductsByCategory(category);
+                    });
                 });
             }
-            
+
+            // تصفية المنتجات حسب الفئة
+            function filterProductsByCategory(category) {
+                const filteredProducts = allProducts.filter(p => p.category === category);
+                
+                if (filteredProducts.length === 0) {
+                    showNotification(`لا توجد منتجات في فئة ${category}`, 'warning');
+                    return;
+                }
+                
+                // مسح المحتوى الحالي
+                categoriesContainer.innerHTML = '';
+                
+                // إنشاء زر العودة
+                const backButton = document.createElement('button');
+                backButton.className = 'btn btn-secondary';
+                backButton.innerHTML = '<i class="fas fa-arrow-left"></i> العودة لجميع الفئات';
+                backButton.style.marginBottom = '2rem';
+                backButton.addEventListener('click', () => {
+                    renderProductsByCategory(allProducts, [...new Set(allProducts.map(p => p.category))]);
+                });
+                
+                categoriesContainer.appendChild(backButton);
+                
+                // عرض عنوان الفئة
+                const categoryHeader = document.createElement('div');
+                categoryHeader.className = 'category-header';
+                categoryHeader.style.marginBottom = '2rem';
+                categoryHeader.innerHTML = `
+                    <h2 class="category-title" style="font-size: 1.8rem;">
+                        <i class="fas fa-folder"></i> ${category}
+                    </h2>
+                    <span class="products-count">${filteredProducts.length} منتج</span>
+                `;
+                
+                categoriesContainer.appendChild(categoryHeader);
+                
+                // عرض جميع منتجات الفئة
+                const productsGrid = document.createElement('div');
+                productsGrid.className = 'products-grid';
+                productsGrid.style.display = 'grid';
+                productsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(250px, 1fr))';
+                productsGrid.style.gap = '1.5rem';
+                
+                categoriesContainer.appendChild(productsGrid);
+                
+                renderCategoryProducts(filteredProducts, productsGrid);
+                
+                // التمرير إلى الأعلى
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+
             // عرض منتجات فئة معينة في السكشن الخاص بها - النسخة المحسنة
             function renderCategoryProducts(products, container) {
                 container.innerHTML = '';
@@ -1442,7 +1564,6 @@
                     overlay.className = 'product-card-overlay';
                     
                     overlay.innerHTML = `
-                   
                         <h3 class="product-title-horizontal">${product.name}</h3>
                         <div class="product-price-horizontal">${product.price} ر.ي</div>
                         <button class="order-now-btn" data-id="${product.id}">
@@ -1470,7 +1591,7 @@
                     container.appendChild(productCard);
                 });
             }
-            
+
             // عرض تفاصيل المنتج - النسخة المحسنة
             function showProductDetails(product) {
                 currentProduct = product;
@@ -1534,7 +1655,7 @@
                 // إخفاء مؤشر التمرير عند فتح المودال
                 scrollIndicator.style.opacity = '0';
             }
-            
+
             // تحديث بيانات Open Graph للمشاركة
             function updateOpenGraphMeta(product) {
                 document.querySelector('meta[property="og:title"]')?.remove();
@@ -1563,7 +1684,7 @@
                 metaUrl.content = window.location.href.split('?')[0] + `?product=${product.id}`;
                 document.head.appendChild(metaUrl);
             }
-            
+
             // إغلاق نافذة التفاصيل
             function closeProductDetails() {
                 productModal.classList.remove('active');
@@ -1574,7 +1695,7 @@
                     scrollIndicator.style.opacity = '0.7';
                 }, 500);
             }
-            
+
             // إضافة منتج إلى السلة - النسخة المحسنة
             function addToCart(product, button = null) {
                 const existingItem = cart.find(item => item.id === product.id);
@@ -1605,7 +1726,7 @@
                     }, 2000);
                 }
             }
-            
+
             // تحديث عداد السلة
             function updateCartCount() {
                 const count = cart.reduce((total, item) => total + item.quantity, 0);
@@ -1617,12 +1738,12 @@
                     cartCount.style.animation = 'pulse 0.5s ease';
                 }, 10);
             }
-            
+
             // حفظ السلة في localStorage
             function saveCartToLocalStorage() {
                 localStorage.setItem('cart', JSON.stringify(cart));
             }
-            
+
             // عرض إشعار
             function showNotification(message, type = 'success') {
                 notification.className = `notification ${type}`;
@@ -1640,7 +1761,7 @@
                     notification.classList.remove('show');
                 }, 3000);
             }
-            
+
             // مشاركة المنتج
             function shareProductHandler() {
                 if (!currentProduct) return;
@@ -1653,7 +1774,7 @@
                     document.addEventListener('click', hideShareBarOutside);
                 }, 100);
             }
-            
+
             // إخفاء شريط المشاركة عند النقر خارجها
             function hideShareBarOutside(e) {
                 if (!shareBar.contains(e.target) && e.target.id !== 'shareProduct') {
@@ -1661,7 +1782,7 @@
                     document.removeEventListener('click', hideShareBarOutside);
                 }
             }
-            
+
             // مشاركة على منصات التواصل
             function shareOnPlatform(platform) {
                 if (!currentProduct) return;
@@ -1693,7 +1814,7 @@
                 
                 window.open(shareLink, '_blank', 'width=600,height=400');
             }
-            
+
             // إعداد أحداث التمرير
             function setupScrollEvents() {
                 window.addEventListener('scroll', () => {
@@ -1720,7 +1841,7 @@
                     });
                 });
             }
-            
+
             // تحميل منتج معين من الرابط
             function loadProductFromURL() {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -1736,7 +1857,7 @@
                     }
                 }
             }
-            
+
             // أحداث نافذة التفاصيل
             modalClose.addEventListener('click', closeProductDetails);
             productModal.addEventListener('click', (e) => {
