@@ -36,13 +36,13 @@
   <div class="page-card">
     <h3>🛒 سلة التسوق</h3>
     <p>إدارة مشتريات المستخدم وتتبع الطلبات</p>
-    <a href="cartt.html" class="page-btn" target="_blank">فتح الصفحة</a>
+    <a href="cart.html" class="page-btn" target="_blank">فتح الصفحة</a>
   </div>
   
   <div class="page-card">
     <h3>⚙️ لوحة الإدارة</h3>
     <p>إضافة وتعديل المنتجات وإدارة المتجر</p>
-    <a href="adminn.html" class="page-btn" target="_blank">فتح الصفحة</a>
+    <a href="admin.html" class="page-btn" target="_blank">فتح الصفحة</a>
   </div>
 </div>
 
