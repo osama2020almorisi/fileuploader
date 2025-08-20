@@ -827,7 +827,7 @@
                 </div>
                 
                 <div class="contact-info">
-                    <p><i class="fas fa-phone"></i> رقم الهاتف: 770200970</p>
+                    <p><i class="fas fa-phone"></i> رقم الهاتف: +967770200970</p>
                     <p><i class="fas fa-envelope"></i> البريد الإلكتروني: 2025ooss@gmail.com</p>
                 </div>
             </div>
@@ -1087,13 +1087,13 @@
                 
                 orderSummary += `\nالمجموع الكلي: ${total} ر.ي\n\n`;
                 orderSummary += `معلومات التواصل:\n`;
-                orderSummary += `رقم الهاتف: 770200970\n`;
+                orderSummary += `رقم الهاتف: +967770200970\n`;
                 orderSummary += `البريد الإلكتروني: 2025ooss@gmail.com\n\n`;
                 orderSummary += `طريقة الاستلام: ${getDeliveryMethodName(selectedDeliveryMethod)}`;
                 
                 // إرسال الطلب حسب الطريقة المختارة
                 if (selectedDeliveryMethod === 'whatsapp') {
-                    const whatsappUrl = `https://wa.me/966770200970?text=${encodeURIComponent(orderSummary)}`;
+                    const whatsappUrl = `https://wa.me/+967770200970?text=${encodeURIComponent(orderSummary)}`;
                     window.open(whatsappUrl, '_blank');
                 } else if (selectedDeliveryMethod === 'email') {
                     const subject = 'طلب جديد من المتجر الإلكتروني';
