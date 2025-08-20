@@ -1802,15 +1802,72 @@
                 min-width: auto;
             }
         }
+    
+        /* أنماط الشعار فقط */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.03);
+        }
+
+        .logo-image {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            object-fit: contain;
+        }
+
+        .logo:hover .logo-image {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--secondary-color), #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .logo-image {
+                height: 40px;
+            }
+            
+            .logo-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-image {
+                height: 35px;
+            }
+            
+            .logo-text {
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <header id="mainHeader">
+   <header id="mainHeader">
         <div class="header-content">
-            <div class="logo" id="logo">
-                <i class="fas fa-store"></i>
-                <h1>متجر إلكتروني</h1>
-            </div>
+            <a href="#" class="logo" id="logo">
+                <!-- استبدل "logo.png" باسم ملف الشعار الخاص بك -->
+                <img src="logo.png" alt="شعار المتجر" class="logo-image" onerror="this.src='https://via.placeholder.com/150x50/1abc9c/ffffff?text=شعار+المتجر'">
+            </a>
             <div class="header-icons">
                 <div class="header-icon favorite-icon-header" id="favoriteIconHeader">
                     <i class="fas fa-heart"></i>
