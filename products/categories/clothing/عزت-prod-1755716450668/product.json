@@ -1,0 +1,13 @@
+{
+  "id": "prod-1755716450668",
+  "name": "\u0639\u0632\u062a",
+  "price": 5,
+  "category": "clothing",
+  "description": "\u0639\u0632\u062a \u0644\u0644\u0627\u0641\u0644\u0627\u0645 \u0627\u0644\u062a\u0631\u0643\u064a",
+  "specs": {},
+  "created_at": "2025-08-20T19:01:12.063Z",
+  "updated_at": "2025-08-20T19:01:12.065Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
