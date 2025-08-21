@@ -1,0 +1,13 @@
+{
+  "id": "prod-1755805864337",
+  "name": "h",
+  "price": 1500,
+  "category": "other",
+  "description": "ugf",
+  "specs": {},
+  "created_at": "2025-08-21T19:51:11.660Z",
+  "updated_at": "2025-08-21T19:51:11.660Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
