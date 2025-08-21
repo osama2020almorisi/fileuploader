@@ -6,11 +6,53 @@
     <title>متجر إلكتروني | عرض المنتجات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <meta property="og:title" content="متجر إلكتروني">
-    <meta property="og:description" content="أفضل المنتجات بأفضل الأسعار">
-    <meta property="og:image" content="https://via.placeholder.com/300x200?text=Store+Logo">
-    <meta property="og:url" content="">
+    
+    <!-- Open Graph Meta Tags الأساسية للموقع -->
+    <meta property="og:site_name" content="متجر إلكتروني">
+    <meta property="og:title" content="متجر إلكتروني | أفضل المنتجات بأفضل الأسعار">
+    <meta property="og:description" content="اكتشف مجموعة واسعة من المنتجات عالية الجودة بأسعار منافسة">
+    <meta property="og:image" content="https://raw.githubusercontent.com/osama2020almorisi/fileuploader/main/logo.png">
+    <meta property="og:url" content="https://osama2020almorisi.github.io/fileuploader/">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="متجر إلكتروني | أفضل المنتجات بأفضل الأسعار">
+    <meta name="twitter:description" content="اكتشف مجموعة واسعة من المنتجات عالية الجودة بأسعار منافسة">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/osama2020almorisi/fileuploader/main/logo.png">
+    
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "متجر إلكتروني",
+      "image": "https://raw.githubusercontent.com/osama2020almorisi/fileuploader/main/logo.png",
+      "description": "أفضل المنتجات بأفضل الأسعار",
+      "url": "https://osama2020almorisi.github.io/fileuploader/",
+      "telephone": "+967770200970",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "YE"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "08:00",
+        "closes": "22:00"
+      }
+    }
+    </script>
+    
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -76,23 +118,27 @@
             gap: 1rem;
             transition: transform 0.3s ease;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .logo:hover {
             transform: scale(1.03);
         }
 
-        .logo i {
-            font-size: 2rem;
-            color: var(--secondary-color);
-            transition: transform 0.5s ease;
+        .logo-image {
+            height: 50px;
+            width: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            object-fit: contain;
         }
 
-        .logo:hover i {
-            transform: rotate(360deg);
+        .logo:hover .logo-image {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .logo h1 {
+        .logo-text {
             font-size: 1.5rem;
             font-weight: 700;
             background: linear-gradient(to right, var(--secondary-color), #fff);
@@ -899,6 +945,7 @@
             background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
             opacity: 0;
             transition: opacity 0.3s ease;
+            z-index: -1;
         }
 
         .share-icon:hover {
@@ -988,6 +1035,7 @@
         .notification.show {
             transform: translateY(0);
             opacity: 1;
+            z-index: 2002;
         }
 
         .notification i {
@@ -1198,6 +1246,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            padding: 0.5rem 0;
         }
 
         .cart-item-title {
@@ -1228,6 +1277,7 @@
             flex-direction: column;
             align-items: flex-end;
             justify-content: space-between;
+            padding: 0.5rem 0;
         }
 
         .quantity-controls {
@@ -1703,7 +1753,7 @@
                 padding: 0.8rem 1.5rem;
             }
             
-            .logo h1 {
+            .logo-text {
                 font-size: 1.3rem;
             }
             
@@ -1802,63 +1852,6 @@
                 min-width: auto;
             }
         }
-    
-        /* أنماط الشعار فقط */
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .logo:hover {
-            transform: scale(1.03);
-        }
-
-        .logo-image {
-            height: 50px;
-            width: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            object-fit: contain;
-        }
-
-        .logo:hover .logo-image {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--secondary-color), #fff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        @media (max-width: 768px) {
-            .logo-image {
-                height: 40px;
-            }
-            
-            .logo-text {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .logo-image {
-                height: 35px;
-            }
-            
-            .logo-text {
-                font-size: 1.1rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1866,7 +1859,8 @@
         <div class="header-content">
             <a href="#" class="logo" id="logo">
                 <!-- استبدل "logo.png" باسم ملف الشعار الخاص بك -->
-                <img src="logo.png" alt="شعار المتجر" class="logo-image" onerror="this.src='https://via.placeholder.com/150x50/1abc9c/ffffff?text=شعار+المتجر'">
+                <img src="https://raw.githubusercontent.com/osama2020almorisi/fileuploader/main/logo.png" alt="شعار المتجر" class="logo-image" onerror="this.src='https://via.placeholder.com/150x50/1abc9c/ffffff?text=شعار+المتجر'">
+                <h1 class="logo-text">متجر إلكتروني</h1>
             </a>
             <div class="header-icons">
                 <div class="header-icon favorite-icon-header" id="favoriteIconHeader">
@@ -2648,33 +2642,88 @@
                 scrollIndicator.style.opacity = '0';
             }
 
-            // تحديث بيانات Open Graph للمشاركة
+            // تحديث بيانات Open Graph للمشاركة - النسخة المحسنة
             function updateOpenGraphMeta(product) {
+                // إزالة أي علامات Open Graph موجودة مسبقاً
                 document.querySelector('meta[property="og:title"]')?.remove();
                 document.querySelector('meta[property="og:description"]')?.remove();
                 document.querySelector('meta[property="og:image"]')?.remove();
                 document.querySelector('meta[property="og:url"]')?.remove();
+                document.querySelector('meta[property="og:type"]')?.remove();
                 
+                // إنشاء علامات Open Graph جديدة للمنتج
                 const metaTitle = document.createElement('meta');
                 metaTitle.setAttribute('property', 'og:title');
-                metaTitle.content = product.name;
+                metaTitle.content = product.name + ' | متجر إلكتروني';
                 document.head.appendChild(metaTitle);
                 
                 const metaDesc = document.createElement('meta');
                 metaDesc.setAttribute('property', 'og:description');
-                metaDesc.content = product.description || 'تصفح هذا المنتج في متجرنا الإلكتروني';
+                metaDesc.content = product.description?.substring(0, 160) || 'اكتشف هذا المنتج الرائع في متجرنا الإلكتروني';
                 document.head.appendChild(metaDesc);
                 
                 const metaImage = document.createElement('meta');
                 metaImage.setAttribute('property', 'og:image');
                 metaImage.content = product.images && product.images.length > 0 ? 
-                    product.images[0] : 'https://via.placeholder.com/600x400?text=No+Image';
+                    product.images[0] : 'https://raw.githubusercontent.com/osama2020almorisi/fileuploader/main/logo.png';
                 document.head.appendChild(metaImage);
                 
                 const metaUrl = document.createElement('meta');
                 metaUrl.setAttribute('property', 'og:url');
                 metaUrl.content = window.location.href.split('?')[0] + `?product=${product.id}`;
                 document.head.appendChild(metaUrl);
+                
+                const metaType = document.createElement('meta');
+                metaType.setAttribute('property', 'og:type');
+                metaType.content = 'product';
+                document.head.appendChild(metaType);
+                
+                // إضافة علامات Twitter Card للمنتج
+                document.querySelector('meta[name="twitter:title"]')?.remove();
+                document.querySelector('meta[name="twitter:description"]')?.remove();
+                document.querySelector('meta[name="twitter:image"]')?.remove();
+                
+                const twitterTitle = document.createElement('meta');
+                twitterTitle.setAttribute('name', 'twitter:title');
+                twitterTitle.content = product.name + ' | متجر إلكتروني';
+                document.head.appendChild(twitterTitle);
+                
+                const twitterDesc = document.createElement('meta');
+                twitterDesc.setAttribute('name', 'twitter:description');
+                twitterDesc.content = product.description?.substring(0, 160) || 'اكتشف هذا المنتج الرائع في متجرنا الإلكتروني';
+                document.head.appendChild(twitterDesc);
+                
+                const twitterImage = document.createElement('meta');
+                twitterImage.setAttribute('name', 'twitter:image');
+                twitterImage.content = product.images && product.images.length > 0 ? 
+                    product.images[0] : 'https://raw.githubusercontent.com/osama2020almorisi/fileuploader/main/logo.png';
+                document.head.appendChild(twitterImage);
+                
+                // إضافة Structured Data للمنتج لمحركات البحث
+                document.getElementById('product-structured-data')?.remove();
+                
+                const structuredData = {
+                    "@context": "https://schema.org/",
+                    "@type": "Product",
+                    "name": product.name,
+                    "image": product.images && product.images.length > 0 ? 
+                        product.images : ["https://raw.githubusercontent.com/osama2020almorisi/fileuploader/main/logo.png"],
+                    "description": product.description || "منتج عالي الجودة من متجر إلكتروني",
+                    "sku": product.id,
+                    "offers": {
+                        "@type": "Offer",
+                        "url": window.location.href.split('?')[0] + `?product=${product.id}`,
+                        "priceCurrency": "YER",
+                        "price": product.price,
+                        "availability": "https://schema.org/InStock"
+                    }
+                };
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.id = 'product-structured-data';
+                script.textContent = JSON.stringify(structuredData);
+                document.head.appendChild(script);
             }
 
             // إغلاق نافذة التفاصيل
