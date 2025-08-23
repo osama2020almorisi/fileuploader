@@ -1,0 +1,13 @@
+{
+  "id": "prod-1755968985291",
+  "name": "logo",
+  "price": 6,
+  "category": "other",
+  "description": "j",
+  "specs": {},
+  "created_at": "2025-08-23T17:09:52.938Z",
+  "updated_at": "2025-08-23T17:09:52.944Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
