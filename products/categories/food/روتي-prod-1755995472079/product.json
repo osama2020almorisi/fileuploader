@@ -1,0 +1,13 @@
+{
+  "id": "prod-1755995472079",
+  "name": "\u0631\u0648\u062a\u064a",
+  "price": 20,
+  "category": "food",
+  "description": "\u0631\u0648\u062a\u064a",
+  "specs": {},
+  "created_at": "2025-08-24T00:31:18.538Z",
+  "updated_at": "2025-08-24T00:31:18.538Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
