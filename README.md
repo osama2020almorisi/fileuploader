@@ -2,7 +2,7 @@
 
 نظام متكامل لإدارة المتاجر الإلكترونية مع واجهة إدارة قوية وعرض منتجات تفاعلي وسلة تسوق ذكية.
 
-![صورة النظام](https://github.com/osama2020almorisi/fileuploader/blob/main/logo1.png)
+![صورة النظام](https://github.com/osama2020almorisi/fileuploader/blob/main/logo2.png)
 
 ## ✨ المميزات الرئيسية
 
