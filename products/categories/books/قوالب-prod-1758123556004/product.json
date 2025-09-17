@@ -1,0 +1,13 @@
+{
+  "id": "prod-1758123556004",
+  "name": "\u0642\u0648\u0627\u0644\u0628",
+  "price": 3019,
+  "category": "books",
+  "description": "\u062a\u0642\u0646",
+  "specs": {},
+  "created_at": "2025-09-17T15:39:30.170Z",
+  "updated_at": "2025-09-17T15:39:30.173Z",
+  "media": [
+    "media/main.jpg"
+  ]
+}
